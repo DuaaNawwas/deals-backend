@@ -19,8 +19,13 @@
   },
   "dependencies": {
     "dotenv": "^16.1.4",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "mysql2": "^3.3.3",
+    "reflect-metadata": "^0.1.13",
     "sequelize": "^6.32.0",
-    "sequelize-typescript": "^2.1.5"
+    "sequelize-typescript": "^2.1.5",
+    "zod": "^3.21.4",
+    "zod-express-middleware": "^1.4.0"
   }
 }

@@ -1,11 +1,12 @@
+// @/models.ts
 import { Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
-import { User } from './user.model';
-import { Deal } from './deal.model';
+import  User  from './user.model';
+import Deal  from './deal.model';
 
 @Table({
   tableName: 'ClaimedDeals',
 })
-export class ClaimedDeal extends Model<ClaimedDeal> {
+export default class ClaimedDeal extends Model<ClaimedDeal> {
   @Column({
     primaryKey: true,
     autoIncrement: true,
@@ -14,23 +15,23 @@ export class ClaimedDeal extends Model<ClaimedDeal> {
   ID!: number;
 
   @ForeignKey(() => User)
-  @Column(DataType.INTEGER)
+  @Column({type: DataType.INTEGER})
   User_ID!: number;
 
   @ForeignKey(() => Deal)
-  @Column(DataType.INTEGER)
+  @Column({type: DataType.INTEGER})
   Deal_ID!: number;
 
-  @Column(DataType.DATE)
+  @Column({type: DataType.DATE})
   Server_DateTime!: Date;
 
-  @Column(DataType.DATE)
+  @Column({type: DataType.DATE})
   DateTime_UTC!: Date;
 
-  @Column(DataType.DECIMAL(10, 2))
+  @Column({type: DataType.DECIMAL(10, 2)})
   Amount!: number;
 
-  @Column(DataType.STRING)
+  @Column({type: DataType.STRING})
   Currency!: string;
 
   @BelongsTo(() => User)
