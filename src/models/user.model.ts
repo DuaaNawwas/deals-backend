@@ -1,5 +1,5 @@
 
-import { Table, Column, Model, DataType, HasMany } from "sequelize-typescript";
+import { Table, Column, Model, DataType, HasMany, CreatedAt, UpdatedAt } from "sequelize-typescript";
 import  ClaimedDeal  from "./claimed-deal.model";
 
 @Table({
@@ -16,10 +16,10 @@ export default class User extends Model<User> {
   @Column({ type: DataType.DATE })
   Server_DateTime!: Date;
 
-  @Column({ type: DataType.DATE })
+  @CreatedAt
   DateTime_UTC!: Date;
 
-  @Column({ type: DataType.DATE })
+  @UpdatedAt
   Update_DateTime_UTC!: Date;
 
   @Column({ type: DataType.DATE })

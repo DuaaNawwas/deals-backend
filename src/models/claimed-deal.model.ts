@@ -1,5 +1,5 @@
 // @/models.ts
-import { Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsTo, ForeignKey, CreatedAt } from 'sequelize-typescript';
 import  User  from './user.model';
 import Deal  from './deal.model';
 
@@ -25,7 +25,7 @@ export default class ClaimedDeal extends Model<ClaimedDeal> {
   @Column({type: DataType.DATE})
   Server_DateTime!: Date;
 
-  @Column({type: DataType.DATE})
+  @CreatedAt
   DateTime_UTC!: Date;
 
   @Column({type: DataType.DECIMAL(10, 2)})
