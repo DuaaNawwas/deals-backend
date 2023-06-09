@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Deal from "../../models/deal.model";
 import moment from "moment-timezone";
+import getServerTime from "../../helpers/server-time";
 
 export default {
   getAllDeals: async function (req: Request, res: Response) {
@@ -16,15 +17,8 @@ export default {
 
   createDeal: async function (req: Request, res: Response): Promise<Response> {
     try {
-      // Get the current timezone
-      const currentTz = moment.tz.guess();
-      console.log(currentTz);
-
-      // Get the current time in the detected timezone
-      const time = moment.tz(currentTz).toDate();
-      console.log(time);
+      const time = getServerTime();
       req.body.Server_DateTime = time;
-      console.log(req.body);
 
       const newDeal: Deal = await Deal.create({ ...req.body });
       return res.status(201).json(newDeal);

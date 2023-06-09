@@ -1,6 +1,5 @@
-
 import { Table, Column, Model, DataType, HasMany, CreatedAt, UpdatedAt } from "sequelize-typescript";
-import  ClaimedDeal  from "./claimed-deal.model";
+import ClaimedDeal from "./claimed-deal.model";
 
 @Table({
   tableName: "Users",
@@ -25,14 +24,20 @@ export default class User extends Model<User> {
   @Column({ type: DataType.DATE })
   Last_Login_DateTime_UTC!: Date;
 
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, unique: true })
   Name!: string;
 
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, unique: true })
   Email!: string;
 
   @Column({ type: DataType.STRING })
+  Password!: string;
+
+  @Column({ type: DataType.STRING })
   Phone!: string;
+
+  @Column({ type: DataType.STRING })
+  Image!: string;
 
   @Column({ type: DataType.STRING })
   Status!: string;
