@@ -5,12 +5,13 @@ import ClaimedDeal from "./claimed-deal.model";
   tableName: "Users",
 })
 export default class User extends Model<User> {
-  @Column({
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  })
-  ID!: number;
+//   @Column({
+//     primaryKey: true,
+//     autoIncrement: true,
+//     allowNull: false,
+//     type: DataType.INTEGER,
+//   })
+//   ID!: number;
 
   @Column({ type: DataType.DATE })
   Server_DateTime!: Date;
@@ -39,7 +40,7 @@ export default class User extends Model<User> {
   @Column({ type: DataType.STRING })
   Image!: string;
 
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, defaultValue: "Active" })
   Status!: string;
 
   @Column({ type: DataType.STRING })

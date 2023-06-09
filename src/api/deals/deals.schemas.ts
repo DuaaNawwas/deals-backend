@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const createDealSchema = z.object({
-  body: z.object({
     Name: z.string({
         required_error: "Name is required",
     }).min(3).max(50),
@@ -17,7 +16,6 @@ export const createDealSchema = z.object({
     Currency: z.string({
         required_error: "Currency is required",
     }).min(3).max(50),
-  }),
 });
 
 export const updateDealSchema = createDealSchema.partial().extend({

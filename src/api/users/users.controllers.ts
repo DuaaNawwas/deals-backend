@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../../models/user.model";
 import { Op } from "sequelize";
 import hashPassword from "../../helpers/hash-password";
+import getServerTime from "../../helpers/server-time";
 
 export default {
     getAllUsers : async function (req: Request, res: Response){
@@ -39,8 +40,9 @@ export default {
             }
 
             const hashedPassword = hashPassword(req.body.Password);
+            req.body.Server_DateTime = getServerTime();
 
-            const newUser = await User.create({...req.body, Password: hashedPassword});
+            const newUser: User = await User.create({...req.body, Password: hashedPassword});
             return res.status(200).json(newUser);
         } catch (error:any) {
             return res.status(500).json({error: error.message});
@@ -57,11 +59,12 @@ export default {
             if (!user) {
                 return res.status(400).json({error: "User not found"});
             }
-            if (user.Password !== hashPassword(req.body.Password)) {
+            
+            if (user.dataValues.Password !== hashPassword(req.body.Password)) {
                 return res.status(400).json({error: "Wrong password"});
             }
 
-            req.session.id = user.id;
+            // req.session.userId = user.id.toString();
             await User.update({Last_Login_DateTime_UTC: new Date()}, {where: {id: user.id}});
 
             return res.status(200).json(user);
