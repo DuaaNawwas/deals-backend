@@ -11,5 +11,5 @@ userRouter.post("/login", validate(loginSchema) , usersControllers.loginUser);
 userRouter.post("/logout" , usersControllers.logoutUser);
 userRouter.delete("/user", usersControllers.softDeleteUser);
 userRouter.delete('/users', usersControllers.softDeleteMultipleUsers);
-
+userRouter.get('/isAuth', usersControllers.checkIfAuthenticated);
 export default userRouter;

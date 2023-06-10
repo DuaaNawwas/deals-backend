@@ -3,6 +3,7 @@ import dealsRouter from "./api/deals";
 import dotenv from "dotenv";
 dotenv.config();
 import claimedDealsRouter from "./api/claimed-deals";
+import cors from "cors";
 // import "reflect-metadata";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -10,6 +11,13 @@ import checkSession from "./middleware/check-session";
 import userRouter from "./api/users/users.routes";
 const app: Application = express();
 
+
+const corsOptions = {
+  optionsSuccessStatus: 200,
+  credentials: true,
+  origin: "http://localhost:3000"
+}
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

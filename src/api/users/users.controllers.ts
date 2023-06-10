@@ -3,6 +3,12 @@ import User from "../../models/user.model";
 import { Op } from "sequelize";
 import hashPassword from "../../helpers/hash-password";
 import getServerTime from "../../helpers/server-time";
+import { SessionData } from "express-session";
+
+interface CustomSessionData extends SessionData {
+    userId?: string;
+  }
+  
 
 export default {
     getAllUsers : async function (req: Request, res: Response){
@@ -64,7 +70,8 @@ export default {
                 return res.status(400).json({error: "Wrong password"});
             }
 
-            // req.session.userId = user.id.toString();
+            (req.session as CustomSessionData).userId = user.id.toString();
+            // res.cookie("userId", user.id.toString(), {httpOnly: true});
             await User.update({Last_Login_DateTime_UTC: new Date()}, {where: {id: user.id}});
 
             return res.status(200).json(user);
@@ -79,6 +86,7 @@ export default {
                 if (error) {
                     return res.status(500).json({error: error.message});
                 }
+                res.clearCookie('session-id')
                 return res.status(200).json({message: "User logged out"});
             });
         } catch (error:any) {
@@ -109,6 +117,16 @@ export default {
             return res.status(500).json({error: error.message});
         }
     },
+
+    checkIfAuthenticated : async function (req: Request, res: Response){
+        
+            if ((req.session as CustomSessionData).userId) {
+              return res.json((req.session as CustomSessionData).userId)
+            } else {
+              return res.status(401).json('unauthorize')
+            }
+          
+    }
 
     // upload image
     
