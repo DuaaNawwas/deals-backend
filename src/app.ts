@@ -9,6 +9,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import checkSession from "./middleware/check-session";
 import userRouter from "./api/users/users.routes";
+import { checkIfAuthenticated } from "./middleware/check-auth";
 const app: Application = express();
 
 
@@ -33,8 +34,11 @@ app.use(
 
 app.use(checkSession);
 
+app.use("/api", userRouter);
+
+// app.use(checkIfAuthenticated)
+
 app.use("/api", dealsRouter);
 app.use("/api", claimedDealsRouter);
-app.use("/api", userRouter);
 
 export default app;

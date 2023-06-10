@@ -1,10 +1,18 @@
-// @/models.ts
-import { Table, Column, Model, DataType, BelongsTo, ForeignKey, CreatedAt } from 'sequelize-typescript';
-import  User  from './user.model';
-import Deal  from './deal.model';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  BelongsTo,
+  ForeignKey,
+  CreatedAt,
+  UpdatedAt,
+} from "sequelize-typescript";
+import User from "./user.model";
+import Deal from "./deal.model";
 
 @Table({
-  tableName: 'ClaimedDeals',
+  tableName: "ClaimedDeals",
 })
 export default class ClaimedDeal extends Model<ClaimedDeal> {
   @Column({
@@ -15,23 +23,26 @@ export default class ClaimedDeal extends Model<ClaimedDeal> {
   ID!: number;
 
   @ForeignKey(() => User)
-  @Column({type: DataType.INTEGER})
+  @Column({ type: DataType.INTEGER })
   User_ID!: number;
 
   @ForeignKey(() => Deal)
-  @Column({type: DataType.INTEGER})
+  @Column({ type: DataType.INTEGER })
   Deal_ID!: number;
 
-  @Column({type: DataType.DATE})
+  @Column({ type: DataType.DATE })
   Server_DateTime!: Date;
 
   @CreatedAt
   DateTime_UTC!: Date;
+  
+  @UpdatedAt
+  Update_DateTime_UTC!: Date;
 
-  @Column({type: DataType.DECIMAL(10, 2)})
+  @Column({ type: DataType.DECIMAL(10, 2) })
   Amount!: number;
 
-  @Column({type: DataType.STRING})
+  @Column({ type: DataType.STRING })
   Currency!: string;
 
   @BelongsTo(() => User)

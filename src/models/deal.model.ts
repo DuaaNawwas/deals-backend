@@ -29,7 +29,7 @@ export default class Deal extends Model<Deal> {
   @Column({ type: DataType.TEXT })
   Description!: string;
 
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, defaultValue: "Active" })
   Status!: string;
 
   @Column({ type: DataType.DECIMAL(10, 2) })

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import ClaimedDeal from "../../models/claimed-deal.model";
 import getServerTime from "../../helpers/server-time";
 import Deal from "../../models/deal.model";
+import { CustomSessionData } from "../users/users.controllers";
 
 export default {
   getAllClaimedDeals: async (req: Request, res: Response) => {
@@ -15,20 +16,25 @@ export default {
 
   claimDeal: async (req: Request, res: Response) => {
     try {
-      const { Deal_ID, User_ID } = req.body;
+        const user = (req.session as CustomSessionData).user
+        console.log(user);
+        
+      const { Deal_ID } = req.body;
 
       const dealToClaim = await Deal.findOne({
         where: { id: Deal_ID },
       });
+      console.log(dealToClaim);
+      
       if (!dealToClaim) {
         return res.status(400).json({ error: "Deal not found" });
       }
-      if (dealToClaim.Status !== "Active") {
+      if (dealToClaim.dataValues.Status !== "Active") {
         return res.status(400).json({ error: "Deal is not active" });
       }
 
       const claimedDeal = await ClaimedDeal.findOne({
-        where: { User_ID: User_ID, Deal_ID: Deal_ID },
+        where: { User_ID: user!.id, Deal_ID: Deal_ID },
       });
       if (claimedDeal) {
         return res
@@ -43,6 +49,7 @@ export default {
         ...req.body,
         Amount: dealToClaim.Amount,
         Currency: dealToClaim.Currency,
+        User_ID: user!.id,
       });
       return res.status(200).json(newClaimedDeal);
     } catch (error: any) {
