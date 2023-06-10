@@ -4,7 +4,6 @@ import { AnyZodObject } from "zod";
 const validate =
   (schema: AnyZodObject) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("validate middleware", req.body);
     
     try {
       const parsed = schema.safeParse(req.body);

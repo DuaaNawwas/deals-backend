@@ -12,13 +12,12 @@ import userRouter from "./api/users/users.routes";
 import { checkIfAuthenticated } from "./middleware/check-auth";
 const app: Application = express();
 
-
 const corsOptions = {
   optionsSuccessStatus: 200,
   credentials: true,
-  origin: "http://localhost:3000"
-}
-app.use(cors(corsOptions))
+  origin: "http://localhost:3000",
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -36,7 +35,7 @@ app.use(checkSession);
 
 app.use("/api", userRouter);
 
-// app.use(checkIfAuthenticated)
+app.use(checkIfAuthenticated);
 
 app.use("/api", dealsRouter);
 app.use("/api", claimedDealsRouter);

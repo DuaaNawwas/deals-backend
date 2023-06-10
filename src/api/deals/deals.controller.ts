@@ -9,17 +9,7 @@ import ClaimedDeal from "../../models/claimed-deal.model";
 export default {
   getAllDeals: async function (req: Request, res: Response) {
     try {
-      // check if user claimed the deal already and send the data to the front end
 
-      //    const user = (req.session as CustomSessionData).user
-      //      const claimedDeals = await ClaimedDeal.findAll({
-      //           where: { User_ID: user?.id },
-      //      })
-
-      //   const deals = await Deal.findAll({
-      //     where: { Status: { [Op.ne]: "Deleted" } },
-      //   });
-      //   res.status(200).json(deals);
       const user = (req.session as CustomSessionData).user;
 
       const deals = await Deal.findAll({
@@ -28,16 +18,15 @@ export default {
           {
             model: ClaimedDeal,
             where: { User_ID: user?.id },
-            required: false, // Use 'required: false' for a left join behavior
+            required: false, 
           },
         ],
       });
 
-      // Add a 'Claimed' field to each deal object indicating if the user claimed the deal or not
       const dealsWithClaimedStatus = deals.map((deal) => {
         return {
           ...deal.toJSON(),
-          Claimed: deal.claimedDeals, // Check if there are associated claimed deals
+          Claimed: deal.claimedDeals,
         };
       });
 
