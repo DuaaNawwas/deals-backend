@@ -16,7 +16,7 @@ claimedDealsRouter.post(
   claimedDealsController.claimDeal
 );
 claimedDealsRouter.get(
-  "/claimed-deals/:User_ID",
+  "/claimed-deals/user",
   claimedDealsController.getClaimedDealsByUser
 );
 

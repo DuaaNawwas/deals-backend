@@ -19,7 +19,7 @@ const checkIfAdmin = async (
   next: NextFunction
 ) => {
   if (req.session && (req.session as CustomSessionData).user) {
-    if ((req.session as CustomSessionData).user?.Role === "admin") {
+    if ((req.session as CustomSessionData).user?.Role === "Admin") {
       return next();
     } else {
       return res.status(401).json("unauthorized");

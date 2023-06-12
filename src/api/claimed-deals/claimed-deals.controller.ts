@@ -17,14 +17,12 @@ export default {
   claimDeal: async (req: Request, res: Response) => {
     try {
         const user = (req.session as CustomSessionData).user
-        console.log(user);
         
       const { Deal_ID } = req.body;
 
       const dealToClaim = await Deal.findOne({
         where: { id: Deal_ID },
       });
-      console.log(dealToClaim);
       
       if (!dealToClaim) {
         return res.status(400).json({ error: "Deal not found" });
@@ -47,8 +45,8 @@ export default {
 
       const newClaimedDeal: ClaimedDeal = await ClaimedDeal.create({
         ...req.body,
-        Amount: dealToClaim.Amount,
-        Currency: dealToClaim.Currency,
+        Amount: dealToClaim.dataValues.Amount,
+        Currency: dealToClaim.dataValues.Currency,
         User_ID: user!.id,
       });
       return res.status(200).json(newClaimedDeal);
@@ -59,10 +57,10 @@ export default {
 
   getClaimedDealsByUser: async (req: Request, res: Response) => {
     try {
-      const { User_ID } = req.params || req.body;
+        const user = (req.session as CustomSessionData).user
 
       const claimedDeals: ClaimedDeal[] = await ClaimedDeal.findAll({
-        where: { User_ID: User_ID },
+        where: { User_ID: user!.id },
       });
       res.status(200).json(claimedDeals);
     } catch (error: any) {

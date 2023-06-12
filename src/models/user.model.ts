@@ -1,17 +1,25 @@
-import { Table, Column, Model, DataType, HasMany, CreatedAt, UpdatedAt } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  HasMany,
+  CreatedAt,
+  UpdatedAt,
+} from "sequelize-typescript";
 import ClaimedDeal from "./claimed-deal.model";
 
 @Table({
   tableName: "Users",
 })
 export default class User extends Model<User> {
-//   @Column({
-//     primaryKey: true,
-//     autoIncrement: true,
-//     allowNull: false,
-//     type: DataType.INTEGER,
-//   })
-//   ID!: number;
+  //   @Column({
+  //     primaryKey: true,
+  //     autoIncrement: true,
+  //     allowNull: false,
+  //     type: DataType.INTEGER,
+  //   })
+  //   ID!: number;
 
   @Column({ type: DataType.DATE })
   Server_DateTime!: Date;
@@ -50,10 +58,10 @@ export default class User extends Model<User> {
   Date_Of_Birth!: Date;
 
   @Column({
-    type: DataType.ENUM("user", "admin"),
+    type: DataType.ENUM("user", "Admin"),
     defaultValue: "user",
   })
-  Role!: "user" | "admin";
+  Role!: "user" | "Admin";
 
   @HasMany(() => ClaimedDeal)
   claimedDeals!: ClaimedDeal[];
