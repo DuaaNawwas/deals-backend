@@ -13,4 +13,5 @@ userRouter.post("/logout" , usersControllers.logoutUser);
 userRouter.delete("/user",checkIfAdmin, usersControllers.softDeleteUser);
 userRouter.delete('/users', checkIfAdmin, usersControllers.softDeleteMultipleUsers);
 userRouter.get('/isAuth', usersControllers.checkIfAuthenticated);
+userRouter.put('/user', checkIfAdmin, usersControllers.updateUser);
 export default userRouter;

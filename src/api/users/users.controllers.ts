@@ -130,5 +130,21 @@ export default {
     }
   },
 
+  updateUser: async function (req: Request, res: Response) {
+      try {
+        const { id } =  req.body;
+        const [updated] = await User.update(req.body, {
+            where: { id: id },
+        });
+        if (updated) {
+            const updatedUser = await User.findOne({ where: { id: id } });
+            return res.status(200).json(updatedUser);
+        }
+      } catch (error: any) {
+        return res.status(500).json({ error: error.message });
+      }
+
+  }
+
   // upload image
 };
