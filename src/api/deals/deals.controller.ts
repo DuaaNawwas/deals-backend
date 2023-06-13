@@ -9,16 +9,14 @@ import ClaimedDeal from "../../models/claimed-deal.model";
 export default {
   getAllDeals: async function (req: Request, res: Response) {
     try {
-
       const user = (req.session as CustomSessionData).user;
-
       const deals = await Deal.findAll({
         where: { Status: { [Op.ne]: "Deleted" } },
         include: [
           {
             model: ClaimedDeal,
             where: { User_ID: user?.id },
-            required: false, 
+            required: false,
           },
         ],
       });
@@ -31,6 +29,16 @@ export default {
       });
 
       res.status(200).json(dealsWithClaimedStatus);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  getAllDealsDashboard: async function (req: Request, res: Response) {
+    try {
+      const deals = await Deal.findAll({});
+
+      res.status(200).json(deals);
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
@@ -85,6 +93,16 @@ export default {
         return res.status(200).json({ message: "Deal deleted" });
       }
       throw new Error("Deal not found");
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  },
+
+  softDeleteMultipleDeals: async function (req: Request, res: Response) {
+    try {
+      const { ids } = req.body;
+      await Deal.update({ Status: "Deleted" }, { where: { id: ids } });
+      return res.status(200).json({ message: "Deals deleted" });
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }

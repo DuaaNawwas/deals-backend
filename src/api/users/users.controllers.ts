@@ -13,11 +13,11 @@ export default {
   getAllUsers: async function (req: Request, res: Response) {
     try {
       const users = await User.findAll({
-        where: {
-          Status: {
-            [Op.ne]: "Deleted",
-          },
-        },
+        // where: {
+        //   Status: {
+        //     [Op.ne]: "Deleted",
+        //   },
+        // },
         attributes: {
           exclude: ["Password"],
         },

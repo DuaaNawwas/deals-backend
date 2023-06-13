@@ -11,6 +11,7 @@ import {
 const dealsRouter = Router();
 
 dealsRouter.get("/deals", dealsController.getAllDeals);
+dealsRouter.get("/deals/dashboard",checkIfAdmin, dealsController.getAllDealsDashboard);
 dealsRouter.post(
   "/deal",
   checkIfAdmin,
@@ -24,5 +25,7 @@ dealsRouter.put(
   dealsController.updateDeal
 );
 dealsRouter.delete("/deal", checkIfAdmin, dealsController.softDeleteDeal);
+dealsRouter.delete("/deals", checkIfAdmin, dealsController.softDeleteMultipleDeals);
+
 
 export default dealsRouter;
