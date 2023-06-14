@@ -7,7 +7,14 @@ import { CustomSessionData } from "../users/users.controllers";
 export default {
   getAllClaimedDeals: async (req: Request, res: Response) => {
     try {
-      const claimedDeals: ClaimedDeal[] = await ClaimedDeal.findAll();
+      const claimedDeals: ClaimedDeal[] = await ClaimedDeal.findAll({
+        include: [
+          {
+            model: Deal,
+          },
+        ],
+      });
+
       res.status(200).json(claimedDeals);
     } catch (error: any) {
       res.status(500).json({ error: error.message });
@@ -16,14 +23,14 @@ export default {
 
   claimDeal: async (req: Request, res: Response) => {
     try {
-        const user = (req.session as CustomSessionData).user
-        
+      const user = (req.session as CustomSessionData).user;
+
       const { Deal_ID } = req.body;
 
       const dealToClaim = await Deal.findOne({
         where: { id: Deal_ID },
       });
-      
+
       if (!dealToClaim) {
         return res.status(400).json({ error: "Deal not found" });
       }
@@ -57,7 +64,7 @@ export default {
 
   getClaimedDealsByUser: async (req: Request, res: Response) => {
     try {
-        const user = (req.session as CustomSessionData).user
+      const user = (req.session as CustomSessionData).user;
 
       const claimedDeals: ClaimedDeal[] = await ClaimedDeal.findAll({
         where: { User_ID: user!.id },
@@ -66,5 +73,5 @@ export default {
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
-  }
+  },
 };
