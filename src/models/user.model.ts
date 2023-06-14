@@ -8,6 +8,7 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 import ClaimedDeal from "./claimed-deal.model";
+import { BlobDataType } from "sequelize";
 
 @Table({
   tableName: "Users",
@@ -45,7 +46,7 @@ export default class User extends Model<User> {
   @Column({ type: DataType.STRING })
   Phone!: string;
 
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING(1000) })
   Image!: string;
 
   @Column({ type: DataType.STRING, defaultValue: "Active" })

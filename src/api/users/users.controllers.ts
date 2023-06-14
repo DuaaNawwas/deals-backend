@@ -131,20 +131,39 @@ export default {
   },
 
   updateUser: async function (req: Request, res: Response) {
-      try {
-        const { id } =  req.body;
-        const [updated] = await User.update(req.body, {
-            where: { id: id },
-        });
-        if (updated) {
-            const updatedUser = await User.findOne({ where: { id: id } });
-            return res.status(200).json(updatedUser);
-        }
-      } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+    try {
+      const user = (req.session as CustomSessionData).user;
+      const id = user?.id;
+      const [updated] = await User.update(req.body, {
+        where: { id: id },
+      });
+      if (updated) {
+        const updatedUser = await User.findOne({ where: { id: id } });
+        return res.status(200).json(updatedUser);
       }
-
-  }
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  },
 
   // upload image
+  uploadImage: async function (req: Request, res: Response) {
+    try {
+      const user = (req.session as CustomSessionData).user;
+      const id = user?.id;
+      const [updated] = await User.update(
+        { Image: req.file?.filename },
+        { where: { id: id } }
+      );
+      if (updated) {
+        const updatedUser = await User.findOne({ where: { id: id } });
+        // return res.status(200).json(updatedUser);
+        return res.status(200).json(req.file?.filename);
+      }
+
+      return res.status(400).json({ error: "Image not uploaded" });
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  },
 };
